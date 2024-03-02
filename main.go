@@ -13,6 +13,7 @@ import (
 
 	"github.com/jritsema/gotoolbox"
 	"github.com/jritsema/gotoolbox/web"
+	"github.com/mattn/go-sqlite3"
 )
 
 var (
@@ -40,7 +41,7 @@ func main() {
 
 	//add routes
 	router := http.NewServeMux()
-	router.Handle("/css/output.css", http.FileServer(http.FS(css)))
+	// router.Handle("/css/output.css", http.FileServer(http.FS(css)))
 
 	router.Handle("/company/add", web.Action(companyAdd))
 	router.Handle("/company/add/", web.Action(companyAdd))
