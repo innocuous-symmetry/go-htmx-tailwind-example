@@ -1,9 +1,6 @@
--- CREATE DATABASE IF NOT EXISTS inventory;
--- USE inventory;
-
 CREATE TABLE IF NOT EXISTS items (
     ID INTEGER PRIMARY KEY,
-    Name TEXT NOT NULL,
+    Name TEXT NOT NULL UNIQUE,
     Notes TEXT,
     Description TEXT,
     Stage INTEGER,
@@ -12,7 +9,7 @@ CREATE TABLE IF NOT EXISTS items (
 
 CREATE TABLE IF NOT EXISTS boxes (
     ID INTEGER PRIMARY KEY,
-    Name TEXT NOT NULL,
+    Name TEXT NOT NULL UNIQUE,
     Notes TEXT,
     Description TEXT,
     Stage INTEGER,
@@ -20,7 +17,7 @@ CREATE TABLE IF NOT EXISTS boxes (
 );
 
 CREATE TABLE IF NOT EXISTS boxitems (
-    ItemID INTEGER,
+    ItemID INTEGER UNIQUE, -- items can only exist in a single box
     BoxID INTEGER,
     PRIMARY KEY (ItemID, BoxID),
     FOREIGN KEY (ItemID) REFERENCES items(ID),

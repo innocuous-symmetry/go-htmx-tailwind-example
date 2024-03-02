@@ -4,3 +4,4 @@ app
 *.out
 tmp
 output.css
+example.db
