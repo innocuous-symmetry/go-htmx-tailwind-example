@@ -11,9 +11,11 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/innocuous-symmetry/moving-mgmt/db"
+
 	"github.com/jritsema/gotoolbox"
 	"github.com/jritsema/gotoolbox/web"
-	"github.com/mattn/go-sqlite3"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 var (
@@ -31,6 +33,7 @@ func main() {
 
 	//exit process immediately upon sigterm
 	handleSigTerms()
+	db.SeedDB()
 
 	//parse templates
 	var err error

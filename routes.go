@@ -2,7 +2,7 @@ package main
 
 import (
 	"net/http"
-	sql "github.com/innocuous-symmetry/moving-mgmt/data"
+	db "github.com/innocuous-symmetry/moving-mgmt/db"
 
 	"github.com/jritsema/gotoolbox/web"
 )
@@ -18,7 +18,7 @@ import (
 // Cancel ->	 GET /company -> nothing, companys.html
 
 func index(r *http.Request) *web.Response {
-	result, err := sql.GetAllItems()
+	result, err := db.GetAllItems()
 	if err != nil {
 		panic(err)
 	}
