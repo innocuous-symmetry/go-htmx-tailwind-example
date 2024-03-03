@@ -12,9 +12,32 @@
     <main>
       <div class="md:container md:mx-auto">
         <h1 class="text-3xl">Mikayla's Move Manager</h1>
+
+        <nav>
+          <button
+            hx-get="/items"
+            hx-target="#home-page-container"
+            hx-swap="innerHTML"
+            class="inline-flex items-center h-8 px-4 m-2 text-sm text-blue-100 transition-colors duration-150 bg-blue-700 rounded-lg focus:shadow-outline hover:bg-blue-800"
+          >
+            Items
+          </button>
+          <button
+            hx-get="/boxes"
+            hx-target="#home-page-container"
+            hx-swap="innerHTML"
+            class="inline-flex items-center h-8 px-4 m-2 text-sm text-blue-100 transition-colors duration-150 bg-blue-700 rounded-lg focus:shadow-outline hover:bg-blue-800"
+          >
+            Boxes
+          </button>
+          <button>Search</button>
+        </nav>
+
         <br/>
-        <span class="text-xl">Companies</span>
-        <div>{{ template "items.html" . }}</div>
+        <span class="text-xl">Items</span>
+        <div id="home-page-container">
+          {{ template "entity-list.html" . }}
+        </div>
       </div>
     </main>
   </body>

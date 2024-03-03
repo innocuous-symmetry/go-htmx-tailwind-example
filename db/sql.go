@@ -93,6 +93,36 @@ func PostBox(box Box) (int64, error) {
 	return result.LastInsertId()
 }
 
+func GetAllBoxes() (result []Box, err error) {
+	db, err := CreateClient()
+	if err != nil {
+		return nil, err
+	}
+
+	defer db.Close()
+
+	rows, err := db.Query("SELECT * FROM boxes")
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		box := Box{}
+
+		err = rows.Scan(&box.ID, &box.Name, &box.Notes, &box.Description, &box.Stage, &box.Category)
+
+		if err != nil {
+			return nil, err
+		}
+
+		result = append(result, box)
+	}
+
+	return
+}
+
 // func PostBoxItem(itemid int, boxid int) (int64, error) {
 // 	db, err := CreateClient()
 // 	if err != nil {

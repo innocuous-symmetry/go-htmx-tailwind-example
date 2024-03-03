@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/innocuous-symmetry/moving-mgmt/db"
+	"github.com/innocuous-symmetry/moving-mgmt/routes"
 
 	"github.com/jritsema/gotoolbox"
 	"github.com/jritsema/gotoolbox/web"
@@ -49,14 +50,9 @@ func main() {
 	// router.Handle("/company/add", web.Action(companyAdd))
 	// router.Handle("/company/add/", web.Action(companyAdd))
 
-	// router.Handle("/company/edit", web.Action(companyEdit))
-	// router.Handle("/company/edit/", web.Action(companyEdit))
-
-	// router.Handle("/company", web.Action(companies))
-	// router.Handle("/company/", web.Action(companies))
-
-	router.Handle("/", web.Action(index))
-	router.Handle("/index.html", web.Action(index))
+	router.Handle("/", web.Action(routes.HomePage))
+	router.Handle("/items", web.Action(routes.Items(html).GetAll))
+	router.Handle("/boxes", web.Action(routes.Boxes(html).GetAll))
 
 	//logging/tracing
 	nextRequestID := func() string {
