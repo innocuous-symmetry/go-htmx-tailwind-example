@@ -34,10 +34,14 @@ func main() {
 
 	//exit process immediately upon sigterm
 	handleSigTerms()
-	db.SeedDB()
+	i, err := db.SeedDB()
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("seeded db with %d records\n", i)
 
 	//parse templates
-	var err error
 	html, err = web.TemplateParseFSRecursive(templateFS, ".html", true, nil)
 	if err != nil {
 		panic(err)
@@ -52,7 +56,11 @@ func main() {
 
 	router.Handle("/", web.Action(routes.HomePage))
 	router.Handle("/items", web.Action(routes.Items(html).GetAll))
+	router.Handle("/items/{id}", web.Action(routes.Items(html).GetByID))
 	router.Handle("/boxes", web.Action(routes.Boxes(html).GetAll))
+	router.Handle("/unrelated", web.Action(func(r *http.Request) *web.Response {
+		return web.HTML(http.StatusOK, html, "row-edit.html", nil, nil)
+	}))
 
 	//logging/tracing
 	nextRequestID := func() string {

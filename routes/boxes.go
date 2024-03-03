@@ -12,8 +12,7 @@ func Boxes(_html *template.Template) *Router {
 	html = _html
 
 	return NewRouter(
-		Box,
-		"/boxes",
+		"boxes",
 		RouterActions{
 			GetAll:  GetAllBoxes,
 			GetByID: nil,
@@ -25,9 +24,21 @@ func Boxes(_html *template.Template) *Router {
 }
 
 func GetAllBoxes(_ *http.Request) *web.Response {
-	result, err := db.GetAllBoxes()
+	result, err := db.GetAll("boxes")
 	if err != nil {
 		return web.Error(http.StatusBadRequest, err, nil)
+	}
+
+	boxes := []db.Box{}
+
+	for result.Next() {
+		box := db.Box{}
+		err = db.ParseBox(&box, result.Scan)
+		if err != nil {
+			return web.Error(http.StatusInternalServerError, err, nil)
+		}
+
+		boxes = append(boxes, box)
 	}
 
 	return web.HTML(

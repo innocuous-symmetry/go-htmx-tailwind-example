@@ -58,12 +58,12 @@ func GetSeedData() (items []Item, boxes []Box, boxitems []BoxItem) {
 func CreateTables(client *sql.DB) (int64, error) {
 	script, err := os.ReadFile("/home/mikayla/go/go-htmx-tailwind-example/db/seed.sql")
 	if err != nil {
-		panic(err)
+		return -1, err
 	}
 
 	result, err := client.Exec(string(script))
 	if err != nil {
-		panic(err)
+		return -1, err
 	}
 
 	return result.RowsAffected()
@@ -86,6 +86,11 @@ func SeedDB() (int64, error) {
 	for i := range(items) {
 		_, err := PostItem(items[i])
 		if err != nil {
+			// ignore unique constraint violations and continue
+			if err.Error() == "UNIQUE constraint failed: items.Name" {
+				continue
+			}
+
 			return -1, err
 		}
 		insertCount++
@@ -94,6 +99,11 @@ func SeedDB() (int64, error) {
 	for i := range(boxes) {
 		_, err := PostBox(boxes[i])
 		if err != nil {
+			// ignore unique constraint violations and continue
+			if err.Error() == "UNIQUE constraint failed: boxes.Name" {
+				continue
+			}
+
 			return -1, err
 		}
 		insertCount++

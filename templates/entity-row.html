@@ -5,4 +5,14 @@
   <td class="whitespace-nowrap px-6 py-4">{{.Category}}</td>
   <td class="whitespace-nowrap px-6 py-4">{{.Description}}</td>
   <td class="whitespace-nowrap px-6 py-4">{{.Notes}}</td>
+  <td class="whitespace-nowrap px-6 py-4">
+    <button
+      hx-get="/items/{{.ID}}"
+      hx-params="edit=true"
+      hx-target="#datarow-{{.ID}}"
+      hx-swap="outerHTML"
+      class="inline-flex items-center h-8 px-4 m-2 text-sm text-blue-100 transition-colors duration-150 bg-blue-700 rounded-lg focus:shadow-outline hover:bg-blue-800"
+    >
+      Edit
+    </button>
 </tr>

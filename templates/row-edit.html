@@ -5,8 +5,8 @@
       type="text"
       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       data-include-edit="{{.ID}}"
-      name="company"
-      value="{{.Company}}"
+      name="Name"
+      value="{{.Name}}"
     />
   </td>
   <td class="whitespace-nowrap px-6 py-4">
@@ -14,8 +14,8 @@
       type="text"
       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       data-include-edit="{{.ID}}"
-      name="contact"
-      value="{{.Contact}}"
+      name="stage"
+      value="{{.Stage}}"
     />
   </td>
   <td class="whitespace-nowrap px-6 py-4">
@@ -23,13 +23,31 @@
       type="text"
       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       data-include-edit="{{.ID}}"
-      name="country"
-      value="{{.Country}}"
+      name="Category"
+      value="{{.Category}}"
+    />
+  </td>
+  <td class="whitespace-nowrap px-6 py-4">
+    <input
+      type="text"
+      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      data-include-edit="{{.ID}}"
+      name="Description"
+      value="{{.Description}}"
+    />
+  </td>
+  <td class="whitespace-nowrap px-6 py-4">
+    <input
+      type="text"
+      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      data-include-edit="{{.ID}}"
+      name="Notes"
+      value="{{.Notes}}"
     />
   </td>
   <td class="whitespace-nowrap px-1 py-1">
     <a
-      hx-put="/company/{{.ID}}"
+      hx-put="/items/{{.ID}}"
       hx-target="#datarow-{{.ID}}"
       hx-swap="outerHTML"
       hx-indicator="#processing"
@@ -41,7 +59,8 @@
   </td>
   <td class="whitespace-nowrap px-1 py-1">
     <a
-      hx-get="/company/{{.ID}}"
+      hx-get="/items/{{.ID}}"
+      hx-params="edit=false"
       hx-target="#datarow-{{.ID}}"
       hx-swap="outerHTML"
       hx-indicator="#processing"
