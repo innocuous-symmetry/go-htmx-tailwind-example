@@ -5,8 +5,8 @@
       type="text"
       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       data-include-edit="{{.ID}}"
-      name="company"
-      value="{{.Company}}"
+      name="name"
+      value="{{.Name}}"
     />
   </td>
   <td class="whitespace-nowrap px-6 py-4">
@@ -14,8 +14,8 @@
       type="text"
       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       data-include-edit="{{.ID}}"
-      name="contact"
-      value="{{.Contact}}"
+      name="stage"
+      value="{{.Stage}}"
     />
   </td>
   <td class="whitespace-nowrap px-6 py-4">
@@ -23,13 +23,33 @@
       type="text"
       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       data-include-edit="{{.ID}}"
-      name="country"
-      value="{{.Country}}"
+      name="category"
+      value="{{.Category}}"
     />
   </td>
+  <td class="whitespace-nowrap px-6 py-4">
+    <input
+      type="text"
+      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      data-include-edit="{{.ID}}"
+      name="description"
+      value="{{.Description}}"
+    />
+  </td>
+  <td class="whitespace-nowrap px-6 py-4">
+    <input
+      type="text"
+      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      data-include-edit="{{.ID}}"
+      name="notes"
+      value="{{.Notes}}"
+    />
+
+
+
   <td class="whitespace-nowrap px-1 py-1">
     <a
-      hx-put="/company/{{.ID}}"
+      hx-put="/items/{{.ID}}"
       hx-target="#datarow-{{.ID}}"
       hx-swap="outerHTML"
       hx-indicator="#processing"
