@@ -10,11 +10,13 @@ import (
 )
 
 type ItemActions struct {
-	Get    func(r *http.Request) *web.Response
-	GetAll func(r *http.Request) *web.Response
-	Edit   func(r *http.Request) *web.Response
-	Delete func(r *http.Request) *web.Response
-	Save   func(r *http.Request) *web.Response
+	Get    	func(r *http.Request) *web.Response
+	GetAll 	func(r *http.Request) *web.Response
+	Edit   	func(r *http.Request) *web.Response
+	Delete 	func(r *http.Request) *web.Response
+	Save   	func(r *http.Request) *web.Response
+	Post   	func(r *http.Request) *web.Response
+	Add		func(r *http.Request) *web.Response
 }
 
 func Items(_html *template.Template) *ItemActions {
@@ -26,6 +28,8 @@ func Items(_html *template.Template) *ItemActions {
 		Edit:   EditItem,
 		Delete: nil,
 		Save:   Put,
+		Post:   Post,
+		Add:    Add,
 	}
 }
 
@@ -152,6 +156,59 @@ func Put(r *http.Request) *web.Response {
 		html,
 		"entity-row.html",
 		item,
+		nil,
+	)
+}
+
+func Post(r *http.Request) *web.Response {
+	err := r.ParseForm()
+	if err != nil {
+		return web.Error(http.StatusBadRequest, err, nil)
+	}
+
+	name := r.Form.Get("name")
+	stage := r.Form.Get("stage")
+	category := r.Form.Get("category")
+	description := r.Form.Get("description")
+	notes := r.Form.Get("notes")
+
+	item := db.Item{
+		Name:        name,
+		Description: &description,
+		Notes:       &notes,
+
+		Stage: func() db.PackingStage {
+			stageInt, _ := strconv.Atoi(stage)
+			return db.PackingStage(stageInt)
+		}(),
+
+		Category: func() db.Category {
+			categoryInt, _ := strconv.Atoi(category)
+			return db.Category(categoryInt)
+		}(),
+	}
+
+	_, err = db.PostItem(item)
+
+	if err != nil {
+		return web.Error(http.StatusInternalServerError, err, nil)
+	}
+
+	return web.HTML(
+		http.StatusOK,
+		html,
+		"entity-row.html",
+		item,
+		nil,
+	)
+}
+
+func Add(r *http.Request) *web.Response {
+	return web.HTML(
+		http.StatusOK,
+		html,
+		"entity-add.html",
+		nil,
 		nil,
 	)
 }

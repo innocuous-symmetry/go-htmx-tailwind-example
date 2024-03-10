@@ -55,6 +55,9 @@ func main() {
 	router.Handle("/items/save/", web.Action(itemActions.Save))
 	router.Handle("/items/save/:id", web.Action(itemActions.Save))
 
+	router.Handle("/items/add", web.Action(itemActions.Post))
+	router.Handle("/items/add/", web.Action(itemActions.Post))
+
 	router.Handle("/items", web.Action(itemActions.Get))
 	router.Handle("/boxes", web.Action(boxActions.GetAll))
 	router.Handle("/items/", web.Action(itemActions.Get))
