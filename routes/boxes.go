@@ -37,7 +37,7 @@ func GetAllBoxes(_ *http.Request) *web.Response {
 	return web.HTML(
 		http.StatusOK,
 		html,
-		"entity-list.html",
+		"boxes/box-list.html",
 		result,
 		nil,
 	)

@@ -10,13 +10,13 @@ import (
 )
 
 type ItemActions struct {
-	Get    	func(r *http.Request) *web.Response
-	GetAll 	func(r *http.Request) *web.Response
-	Edit   	func(r *http.Request) *web.Response
-	Delete 	func(r *http.Request) *web.Response
-	Save   	func(r *http.Request) *web.Response
-	Post   	func(r *http.Request) *web.Response
-	Add		func(r *http.Request) *web.Response
+	Get    func(r *http.Request) *web.Response
+	GetAll func(r *http.Request) *web.Response
+	Edit   func(r *http.Request) *web.Response
+	Delete func(r *http.Request) *web.Response
+	Save   func(r *http.Request) *web.Response
+	Post   func(r *http.Request) *web.Response
+	Add    func(r *http.Request) *web.Response
 }
 
 func Items(_html *template.Template) *ItemActions {
@@ -36,7 +36,7 @@ func Items(_html *template.Template) *ItemActions {
 func Get(r *http.Request) *web.Response {
 	_, count := web.PathLast(r)
 
-	if count == 0 {
+	if count == 1 {
 		return GetAllItems(r)
 	} else {
 		return GetItemByID(r)
@@ -52,7 +52,7 @@ func GetAllItems(_ *http.Request) *web.Response {
 	return web.HTML(
 		http.StatusOK,
 		html,
-		"entity-list.html",
+		"items/entity-list.html",
 		result,
 		nil,
 	)
@@ -75,7 +75,7 @@ func EditItem(r *http.Request) *web.Response {
 	return web.HTML(
 		http.StatusOK,
 		html,
-		"entity-edit.html",
+		"items/entity-edit.html",
 		result,
 		nil,
 	)
@@ -98,7 +98,7 @@ func GetItemByID(r *http.Request) *web.Response {
 	return web.HTML(
 		http.StatusOK,
 		html,
-		"entity-row.html",
+		"items/entity-row.html",
 		result,
 		nil,
 	)
@@ -154,7 +154,7 @@ func Put(r *http.Request) *web.Response {
 	return web.HTML(
 		http.StatusOK,
 		html,
-		"entity-row.html",
+		"items/entity-row.html",
 		item,
 		nil,
 	)
@@ -197,7 +197,7 @@ func Post(r *http.Request) *web.Response {
 	return web.HTML(
 		http.StatusOK,
 		html,
-		"entity-row.html",
+		"items/entity-row.html",
 		item,
 		nil,
 	)
@@ -207,7 +207,7 @@ func Add(r *http.Request) *web.Response {
 	return web.HTML(
 		http.StatusOK,
 		html,
-		"entity-add.html",
+		"items/items/entity-add.html",
 		nil,
 		nil,
 	)
@@ -230,7 +230,7 @@ func Delete(r *http.Request) *web.Response {
 	return web.HTML(
 		http.StatusOK,
 		html,
-		"entity-row.html",
+		"items/entity-row.html",
 		nil,
 		nil,
 	)
