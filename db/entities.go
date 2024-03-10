@@ -22,21 +22,21 @@ const (
 
 // entities
 type Item struct {
-	ID    			int
-	Name  			string
-	Notes 			*string
-	Description		*string
-	Stage 			PackingStage
-	Category		Category
+	ID    			int				`json:"id"`
+	Name  			string			`json:"name"`
+	Notes 			*string			`json:"notes"`
+	Description		*string			`json:"description"`
+	Stage 			PackingStage	`json:"stage"`
+	Category		Category		`json:"category"`
 }
 
 type Box struct {
-	ID				int
-	Name			string
-	Notes			*string
-	Description		*string
-	Stage			PackingStage
-	Category		Category
+	ID				int				`json:"id"`
+	Name			string			`json:"name"`
+	Notes			*string			`json:"notes"`
+	Description		*string			`json:"description"`
+	Stage			PackingStage	`json:"stage"`
+	Category		Category		`json:"category"`
 }
 
 // joins

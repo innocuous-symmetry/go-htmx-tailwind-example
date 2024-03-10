@@ -51,13 +51,16 @@ func main() {
 	router.Handle("/items/save", web.Action(itemActions.Save))
 	router.Handle("/items/edit/", web.Action(itemActions.Edit))
 	router.Handle("/items/delete/", web.Action(itemActions.Delete))
+	router.Handle("/items/delete/:id", web.Action(itemActions.Delete))
 	router.Handle("/items/save/", web.Action(itemActions.Save))
+	router.Handle("/items/save/:id", web.Action(itemActions.Save))
 
 	router.Handle("/items", web.Action(itemActions.Get))
-	router.Handle("/items/:id", web.Action(itemActions.Get))
 	router.Handle("/boxes", web.Action(boxActions.GetAll))
 	router.Handle("/items/", web.Action(itemActions.Get))
+	router.Handle("/items/:id", web.Action(itemActions.Get))
 	router.Handle("/boxes/", web.Action(boxActions.GetAll))
+	router.Handle("/boxes/:id", web.Action(boxActions.GetAll))
 
 	router.Handle("/", web.Action(routes.HomePage))
 	router.Handle("/index.html", web.Action(routes.HomePage))
