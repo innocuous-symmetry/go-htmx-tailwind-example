@@ -23,9 +23,6 @@ var (
 	//go:embed all:templates/*
 	templateFS embed.FS
 
-	//go:embed css/output.css
-	css embed.FS
-
 	//parsed templates
 	html *template.Template
 )
@@ -45,14 +42,25 @@ func main() {
 
 	//add routes
 	router := http.NewServeMux()
-	// router.Handle("/css/output.css", http.FileServer(http.FS(css)))
 
-	// router.Handle("/company/add", web.Action(companyAdd))
-	// router.Handle("/company/add/", web.Action(companyAdd))
+	itemActions := routes.Items(html)
+	boxActions := routes.Boxes(html)
+
+	router.Handle("/items/edit", web.Action(itemActions.Edit))
+	router.Handle("/items/delete", web.Action(itemActions.Delete))
+	router.Handle("/items/save", web.Action(itemActions.Save))
+	router.Handle("/items/edit/", web.Action(itemActions.Edit))
+	router.Handle("/items/delete/", web.Action(itemActions.Delete))
+	router.Handle("/items/save/", web.Action(itemActions.Save))
+
+	router.Handle("/items", web.Action(itemActions.Get))
+	router.Handle("/items/:id", web.Action(itemActions.Get))
+	router.Handle("/boxes", web.Action(boxActions.GetAll))
+	router.Handle("/items/", web.Action(itemActions.Get))
+	router.Handle("/boxes/", web.Action(boxActions.GetAll))
 
 	router.Handle("/", web.Action(routes.HomePage))
-	router.Handle("/items", web.Action(routes.Items(html).GetAll))
-	router.Handle("/boxes", web.Action(routes.Boxes(html).GetAll))
+	router.Handle("/index.html", web.Action(routes.HomePage))
 
 	//logging/tracing
 	nextRequestID := func() string {

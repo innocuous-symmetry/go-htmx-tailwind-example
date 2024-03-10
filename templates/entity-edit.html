@@ -49,7 +49,7 @@
 
   <td class="whitespace-nowrap px-1 py-1">
     <a
-      hx-put="/items/{{.ID}}"
+      hx-put="/items/save/{{.ID}}"
       hx-target="#datarow-{{.ID}}"
       hx-swap="outerHTML"
       hx-indicator="#processing"
@@ -61,7 +61,7 @@
   </td>
   <td class="whitespace-nowrap px-1 py-1">
     <a
-      hx-get="/company/{{.ID}}"
+      hx-get="/items/{{.ID}}"
       hx-target="#datarow-{{.ID}}"
       hx-swap="outerHTML"
       hx-indicator="#processing"

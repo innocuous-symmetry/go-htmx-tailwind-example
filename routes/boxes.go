@@ -8,20 +8,24 @@ import (
 	"github.com/jritsema/gotoolbox/web"
 )
 
-func Boxes(_html *template.Template) *Router {
+type BoxActions struct {
+	GetAll  func(r *http.Request) *web.Response
+	GetByID func(r *http.Request) *web.Response
+	Post    func(r *http.Request) *web.Response
+	Put     func(r *http.Request) *web.Response
+	Delete  func(r *http.Request) *web.Response
+}
+
+func Boxes(_html *template.Template) *BoxActions {
 	html = _html
 
-	return NewRouter(
-		Box,
-		"/boxes",
-		RouterActions{
-			GetAll:  GetAllBoxes,
-			GetByID: nil,
-			Post:    nil,
-			Put:     nil,
-			Delete:  nil,
-		},
-	)
+	return &BoxActions{
+		GetAll:  GetAllBoxes,
+		GetByID: nil,
+		Post:    nil,
+		Put:     nil,
+		Delete:  nil,
+	}
 }
 
 func GetAllBoxes(_ *http.Request) *web.Response {

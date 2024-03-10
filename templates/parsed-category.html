@@ -1,0 +1,27 @@
+<td class="whitespace-nowrap px-6 py-4">
+    {{ if eq . 0 }}
+        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
+            Bedroom
+        </span>
+    {{ else if eq . 1 }}
+        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-cyan-100 text-cyan-800">
+            Bathroom
+        </span>
+    {{ else if eq . 2 }}
+        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800">
+            Kitchen
+        </span>
+    {{ else if eq . 3 }}
+        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-rose-100 text-rose-800">
+            Office
+        </span>
+    {{ else if eq . 4 }}
+        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800">
+            Living Room
+        </span>
+    {{ else }}
+        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+            Other
+        </span>
+    {{ end }}
+</td>

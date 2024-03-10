@@ -1,8 +1,10 @@
-<tr id="datarow-{{.ID}}" class="border-b dark:border-neutral-500">
+<tr id="datarow-{{.ID}}" class="border-b dark:border-neutral-500 hover:bg-slate-300 hover:bg-opacity-20">
   <td class="whitespace-nowrap px-6 py-4">{{.ID}}</td>
   <td class="whitespace-nowrap px-6 py-4">{{.Name}}</td>
+
   <td class="whitespace-nowrap px-6 py-4">{{.Stage}}</td>
-  <td class="whitespace-nowrap px-6 py-4">{{.Category}}</td>
+
+  {{ template "parsed-category.html" .Category }}
 
   {{ if .Description }}
     <td class="whitespace-nowrap px-6 py-4">{{.Description}}</td>
@@ -18,10 +20,10 @@
 
   <td class="whitespace-nowrap px-6 py-4">
     <button
-      hx-get="/items/edit/{{.ID}}"
-      hx-target="#datarow-{{.ID}}"
+      hx-get="/items/edit/{{ .ID }}"
+      hx-target="#datarow-{{ .ID }}"
       hx-swap="outerHTML"
-      class="inline-flex items-center h-8 px-4 m-2 text-sm text-blue-100 transition-colors duration-150 bg-blue-700 rounded-lg focus:shadow-outline hover:bg-blue-800"
+      class="inline-flex items-center h-8 px-4 m-2 text-sm text-blue-100 transition-colors duration-150 bg-yellow-700 rounded-lg focus:shadow-outline hover:bg-blue-800"
     >
       Edit
     </button>
