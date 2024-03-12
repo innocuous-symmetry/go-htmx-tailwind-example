@@ -45,6 +45,7 @@ func main() {
 
 	itemActions := routes.Items(html)
 	boxActions := routes.Boxes(html)
+	boxItemActions := routes.BoxItems(html)
 
 	router.Handle("/items/edit", web.Action(itemActions.Edit))
 	router.Handle("/items/delete", web.Action(itemActions.Delete))
@@ -57,6 +58,10 @@ func main() {
 
 	router.Handle("/items/add", web.Action(itemActions.Post))
 	router.Handle("/items/add/", web.Action(itemActions.Post))
+
+	router.Handle("/box-items", web.Action(boxItemActions.Get))
+	router.Handle("/box-items/", web.Action(boxItemActions.Get))
+	router.Handle("/box-items/:id", web.Action(boxItemActions.Get))
 
 	router.Handle("/items", web.Action(itemActions.Get))
 	router.Handle("/boxes", web.Action(boxActions.GetAll))

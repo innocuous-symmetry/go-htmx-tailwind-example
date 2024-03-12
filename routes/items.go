@@ -23,13 +23,13 @@ func Items(_html *template.Template) *ItemActions {
 	html = _html
 
 	return &ItemActions{
-		Get:    Get,
-		GetAll: GetAllItems,
-		Edit:   EditItem,
-		Delete: nil,
-		Save:   Put,
-		Post:   Post,
-		Add:    Add,
+		Get:    	Get,
+		GetAll: 	GetAllItems,
+		Edit:   	EditItem,
+		Delete: 	Delete,
+		Save:   	Put,
+		Post:   	Post,
+		Add:    	Add,
 	}
 }
 

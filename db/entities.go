@@ -39,9 +39,16 @@ type Box struct {
 	Category		Category		`json:"category"`
 }
 
-// joins
+// joining tables and derivative data types
 type BoxItem struct {
 	ID				int
 	BoxID			int
 	ItemID			int
+}
+
+type BoxItemWithItemInfo struct {
+	ID				int
+	Name			string
+	Stage 			PackingStage
+	Category		Category
 }

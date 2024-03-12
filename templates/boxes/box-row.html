@@ -1,11 +1,12 @@
 <tr id="boxrow-{{.ID}}" class="border-b dark:border-neutral-500 hover:bg-slate-300 hover:bg-opacity-20">
-    <td
-        hx-get="/box-items?box_id={{ .ID }}"
-        hx-target="#boxrow-{{ .ID }}"
-        hx-swap="afterend"
-        class="whitespace-nowrap px-6 py-4 relative top-0 -left-12 inline-flex items-center h-8 m-2 text-sm text-stone-100 transition-colors duration-150 bg-stone-700 rounded-lg focus:shadow-outline hover:bg-stone-800"
-    >
-        &lt;
+  <td class="whitespace-nowrap px-6 py-4">
+      <button
+          hx-get="/box-items?boxid={{ .ID }}"
+          hx-target="#boxrow-{{ .ID }}"
+          class="inline-flex items-center h-8 px-4 m-2 text-sm text-stone-100 transition-colors duration-150 bg-stone-700 rounded-lg focus:shadow-outline hover:bg-stone-800"
+      >
+        &gt;
+      </button>
     </td>
     <td class="whitespace-nowrap px-6 py-4">{{.ID}}</td>
     <td class="whitespace-nowrap px-6 py-4">{{.Name}}</td>
