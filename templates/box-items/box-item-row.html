@@ -1,0 +1,10 @@
+<tr class="box-item-row border-b dark:border-neutral-500 hover:bg-slate-300 hover:bg-opacity-20">
+    <td class="whitespace-nowrap px-6 py-4">{{ .ID }}</td>
+    <td class="whitespace-nowrap px-6 py-4">{{ .Name }}</td>
+
+    {{ template "components/parsed-packing-stage.html" .Stage }}
+    {{ template "components/parsed-category.html" .Category }}
+
+    <td class="whitespace-nowrap px-6 py-4">{{ .Description }}</td>
+    <td class="whitespace-nowrap px-6 py-4">{{ .Notes }}</td>
+</tr>

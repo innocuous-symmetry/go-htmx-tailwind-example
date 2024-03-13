@@ -51,4 +51,6 @@ type BoxItemWithItemInfo struct {
 	Name			string
 	Stage 			PackingStage
 	Category		Category
+	Description		*string
+	Notes			*string
 }

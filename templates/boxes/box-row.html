@@ -3,6 +3,7 @@
       <button
           hx-get="/box-items?boxid={{ .ID }}"
           hx-target="#boxrow-{{ .ID }}"
+          hx-swap="afterend"
           class="inline-flex items-center h-8 px-4 m-2 text-sm text-stone-100 transition-colors duration-150 bg-stone-700 rounded-lg focus:shadow-outline hover:bg-stone-800"
       >
         &gt;
@@ -11,9 +12,9 @@
     <td class="whitespace-nowrap px-6 py-4">{{.ID}}</td>
     <td class="whitespace-nowrap px-6 py-4">{{.Name}}</td>
 
-    {{ template "components/parsed-packing-stage.html" .Stage }}
+    {{ template "components/parsed-packing-stage.html" .ID }}
 
-    {{ template "components/parsed-category.html" .Category }}
+    {{ template "components/parsed-category.html" .ID }}
 
     {{ if .Description }}
       <td class="whitespace-nowrap px-6 py-4">{{.Description}}</td>

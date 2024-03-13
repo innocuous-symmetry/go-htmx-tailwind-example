@@ -156,7 +156,7 @@ func GetBoxItemsByBoxID(boxID int) ([]BoxItemWithItemInfo, error) {
 	// get all rows from box_items where boxid = boxID
 	// also get the item info for each item
 	rows, err := db.Query(
-		"SELECT id, items.name, items.stage, items.category FROM boxitems JOIN items ON itemid=items.id WHERE boxid = ?",
+		"SELECT id, items.name, items.stage, items.category, items.description, items.notes FROM boxitems JOIN items ON itemid=items.id WHERE boxid = ?",
 		boxID)
 
 	if err != nil {
@@ -169,7 +169,7 @@ func GetBoxItemsByBoxID(boxID int) ([]BoxItemWithItemInfo, error) {
 
 	for rows.Next() {
 		boxItem := BoxItemWithItemInfo{}
-		if err = rows.Scan(&boxItem.ID, &boxItem.Name, &boxItem.Stage, &boxItem.Category); err != nil {
+		if err = rows.Scan(&boxItem.ID, &boxItem.Name, &boxItem.Stage, &boxItem.Category, &boxItem.Description, &boxItem.Notes); err != nil {
 			return nil, err
 		}
 

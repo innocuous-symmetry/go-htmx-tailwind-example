@@ -107,9 +107,16 @@ func GetItemByID(r *http.Request) *web.Response {
 func Put(r *http.Request) *web.Response {
 	id, _ := web.PathLast(r)
 
-	err := r.ParseForm()
-	if err != nil {
+	if err := r.ParseForm(); err != nil {
 		return web.Error(http.StatusBadRequest, err, nil)
+	}
+
+	if r.Form.Get("category") == "" {
+		panic(r.Form.Get(""))
+	}
+
+	if r.Form.Get("stage") == "" {
+		panic(r.Form.Get(""))
 	}
 
 	name := r.Form.Get("name")
@@ -145,9 +152,7 @@ func Put(r *http.Request) *web.Response {
 		}(),
 	}
 
-	_, err = db.PutItem(item)
-
-	if err != nil {
+	if _, err := db.PutItem(item); err != nil {
 		return web.Error(http.StatusInternalServerError, err, nil)
 	}
 
