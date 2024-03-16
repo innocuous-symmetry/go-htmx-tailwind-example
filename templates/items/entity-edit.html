@@ -13,23 +13,10 @@
     />
   </td>
   <td class="whitespace-nowrap px-6 py-4">
-    <select class="data-input-{{.ID}}" id="packing-stage-selector-{{.ID}}" data-include-edit="{{.ID}}" value="{{.Stage}}" name="stage">
-      <option value="0">Essentials</option>
-      <option value="1">Stage One</option>
-      <option value="2">Stage Two</option>
-      <option value="3">Stage Three</option>
-      <option value="4">Determine Later</option>
-    </select>
+    {{ template "components/edit-packing-stage.html" . }}
   </td>
   <td class="whitespace-nowrap px-6 py-4">
-    <select class="data-input-{{.ID}}" id="category-selector-{{.ID}}" data-include-edit="{{.ID}}" value="{{.Category}}" name="category">
-      <option value="0">Bedroom</option>
-      <option value="1">Bathroom</option>
-      <option value="2">Kitchen</option>
-      <option value="3">Office</option>
-      <option value="4">Living Room</option>
-      <option value="5">Other</option>
-    </select>
+    {{ template "components/edit-category.html" . }}
   </td>
   <td class="whitespace-nowrap px-6 py-4">
     <input
@@ -51,6 +38,7 @@
 
   <td class="whitespace-nowrap px-1 py-1">
     <a
+      id="datarow-{{.ID}}-save"
       hx-put="/items/save/{{.ID}}"
       hx-target="#datarow-{{.ID}}"
       hx-swap="outerHTML"
@@ -73,6 +61,16 @@
     >
   </td>
   <script>
+    window.addEventListener("keydown", (e) => {
+      /** @typedef KeyboardEvent */
+      const target = e.target;
+
+      if (e.target.key == "Enter") {
+        const a = document.getElementById("datarow-{{.ID}}-save");
+        void a.click();
+      }
+    })
+
     document.getElementById("category-selector-{{.ID}}").onchange = (e) => {
       console.log(e.target.value);
     }

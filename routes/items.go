@@ -202,7 +202,7 @@ func Post(r *http.Request) *web.Response {
 	return web.HTML(
 		http.StatusOK,
 		html,
-		"items/entity-row.html",
+		"items/entity-add-success.html",
 		item,
 		nil,
 	)

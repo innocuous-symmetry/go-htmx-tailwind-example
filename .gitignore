@@ -1,7 +1,10 @@
 app
+mikayla-moving
+
+tmp
+output.css
+
 *.swp
 *.test
 *.out
-tmp
-output.css
-example.db
+*.db
