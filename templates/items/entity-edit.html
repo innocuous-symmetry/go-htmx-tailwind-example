@@ -1,9 +1,9 @@
-<tr id="datarow-{{.ID}}" class="datarow border-b dark:border-neutral-500">
-  <td class="whitespace-nowrap px-6 py-4">
+<tr id="datarow-{{.ID}}" class="datarow w-full border-b dark:border-neutral-500">
+  <td id="datarow-{{.ID}}-id" class="hidden md:flex whitespace-nowrap px-6 py-4 w-1/12">
     <input class="data-input-{{.ID}}" hidden disabled type="text" name="id" value="{{.ID}}" data-include-edit="{{.ID}}" />
     <span>{{.ID}}</span>
   </td>
-  <td class="whitespace-nowrap px-6 py-4">
+  <td id="datarow-{{.ID}}-name" class="whitespace-nowrap px-6 py-4 w-1/4 md:w-1/6">
     <input
       type="text"
       class="data-input-{{.ID}} shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -12,13 +12,13 @@
       value="{{.Name}}"
     />
   </td>
-  <td class="whitespace-nowrap px-6 py-4">
+  <td id="datarow-{{.ID}}-stage" class="whitespace-nowrap px-6 py-4 w-1/4 md:w-1/6">
     {{ template "components/edit-packing-stage.html" . }}
   </td>
-  <td class="whitespace-nowrap px-6 py-4">
+  <td id="datarow-{{.ID}}-category" class="whitespace-nowrap px-6 py-4 w-1/4 md:w-1/6">
     {{ template "components/edit-category.html" . }}
   </td>
-  <td class="whitespace-nowrap px-6 py-4">
+  <td id="datarow-{{.ID}}-description" class="hidden md:flex px-6 py-4 w-1/6">
     <input
       type="text"
       class="data-input-{{.ID}} shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -27,7 +27,7 @@
       value="{{.Description}}"
     />
   </td>
-  <td class="whitespace-nowrap px-6 py-4">
+  <td id="datarow-{{.ID}}-notes" class="hidden md:flex px-6 py-4 w-1/6">
     <input
       type="text"
       class="data-input-{{.ID}} shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -36,7 +36,7 @@
       value="{{.Notes}}"
     />
 
-  <td class="whitespace-nowrap px-1 py-1">
+  <td id="datarow-{{.ID}}-actions" class="whitespace-nowrap flex items-end px-1 py-1 w-1/4 md:w-1/12">
     <a
       id="datarow-{{.ID}}-save"
       hx-put="/items/save/{{.ID}}"
@@ -48,8 +48,6 @@
       href=""
       >Save</a
     >
-  </td>
-  <td class="whitespace-nowrap px-1 py-1">
     <a
       hx-get="/items/{{.ID}}"
       hx-target="#datarow-{{.ID}}"

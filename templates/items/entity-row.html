@@ -1,24 +1,29 @@
 <tr id="datarow-{{.ID}}" class="border-b dark:border-neutral-500 hover:bg-slate-300 hover:bg-opacity-20">
-  <td class="whitespace-nowrap px-6 py-4">{{.ID}}</td>
-  <td class="whitespace-nowrap px-6 py-4">{{.Name}}</td>
+  <td class="whitespace-nowrap items-center justify-center w-1/12">{{.ID}}</td>
 
-  {{ template "components/parsed-packing-stage.html" .Stage }}
+  <td class="whitespace-nowrap px-6 py-4 w-1/6">{{.Name}}</td>
 
-  {{ template "components/parsed-category.html" .Category }}
+  <td class="whitespace-nowrap px-6 py-4 w-1/6">
+    {{ template "components/parsed-packing-stage.html" .Stage }}
+  </td>
+
+  <td class="whitespace-nowrap px-6 py-4 w-1/6">
+    {{ template "components/parsed-category.html" .Category }}
+  </td>
 
   {{ if .Description }}
-    <td class="whitespace-nowrap px-6 py-4">{{.Description}}</td>
+    <td class="w-1/6 px-6 py-4 ">{{.Description}}</td>
   {{ else }}
-    <td class="whitespace-nowrap px-6 py-4">...</td>
+    <td class="w-1/6 px-6 py-4 ">...</td>
   {{ end }}
 
   {{ if .Notes }}
-    <td class="whitespace-nowrap px-6 py-4">{{.Notes}}</td>
+    <td class="w-1/6 px-6 py-4 ">{{.Notes}}</td>
   {{ else }}
-    <td class="whitespace-nowrap px-6 py-4">...</td>
+    <td class="w-1/6 px-6 py-4 ">...</td>
   {{ end }}
 
-  <td class="flex whitespace-nowrap px-6 py-4">
+  <td class="whitespace-nowrap px-6 py-4 w-1/12">
     <button
       hx-get="/items/edit/{{ .ID }}"
       hx-target="#datarow-{{ .ID }}"

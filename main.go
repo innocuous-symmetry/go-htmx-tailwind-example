@@ -47,7 +47,7 @@ func main() {
 	boxActions := routes.Boxes(html)
 	boxItemActions := routes.BoxItems(html)
 
-	
+
 
 	router.Handle("/items/edit", web.Action(itemActions.Edit))
 	router.Handle("/items/delete", web.Action(itemActions.Delete))
