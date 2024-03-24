@@ -1,0 +1,52 @@
+<tr id="datarow-NEW_ITEM_ROW" class="datarow border-b dark:border-neutral-500">
+    <td class="whitespace-nowrap px-6 py-4">
+      <!-- <input hidden disabled type="text" name="id" value="NEW_ITEM_ROW" data-include-edit="NEW_ITEM_ROW" />
+      <span>NEW_ITEM_ROW</span> -->
+    </td>
+    <td class="whitespace-nowrap px-6 py-4">
+      <input
+        placeholder="Item name"
+        type="text"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        data-include-edit="NEW_ITEM_ROW"
+        name="name"
+      />
+    </td>
+    <td class="whitespace-nowrap px-6 py-4">
+      {{ template "components/add-packing-stage.html" }}
+    </td>
+    <td class="whitespace-nowrap px-6 py-4">
+      {{ template "components/add-category.html" }}
+    </td>
+    <td class="whitespace-nowrap px-6 py-4">
+      <input
+        type="text"
+        placeholder="Short description"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        data-include-edit="NEW_ITEM_ROW"
+        name="description"
+      />
+    </td>
+    <td class="whitespace-nowrap px-6 py-4">
+      <input
+        type="text"
+        placeholder="Notes"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        data-include-edit="NEW_ITEM_ROW"
+        name="notes"
+      />
+
+    <td class="whitespace-nowrap px-1 py-1">
+      <a
+        id="add-new-item-button-NEW_ITEM_ROW"
+        hx-post="/items/add"
+        hx-target="#datarow-NEW_ITEM_ROW"
+        hx-swap="outerHTML"
+        hx-indicator="#processing"
+        hx-include="[data-include-edit='NEW_ITEM_ROW']"
+        class="inline-flex items-center h-8 px-4 m-2 text-sm text-blue-100 transition-colors duration-150 bg-blue-700 rounded-lg focus:shadow-outline hover:bg-blue-800"
+        href=""
+        >Add</a
+      >
+    </td>
+  </tr>

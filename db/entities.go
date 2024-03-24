@@ -20,46 +20,37 @@ const (
 	Other
 )
 
-var CategoryMap = map[Category]string{
-	Bedroom:    "Bedroom",
-	Bathroom:   "Bathroom",
-	Kitchen:    "Kitchen",
-	Office:     "Office",
-	LivingRoom: "Living Room",
-	Other:      "Other",
+// entities
+type Item struct {
+	ID    			int				`json:"id"`
+	Name  			string			`json:"name"`
+	Notes 			*string			`json:"notes"`
+	Description		*string			`json:"description"`
+	Stage 			PackingStage	`json:"stage"`
+	Category		Category		`json:"category"`
 }
 
-var PackingStageMap = map[PackingStage]string{
-	Essentials: "Essentials",
-	StageOne:   "Stage One",
-	StageTwo:   "Stage Two",
-	StageThree: "Stage Three",
+type Box struct {
+	ID				int				`json:"id"`
+	Name			string			`json:"name"`
+	Notes			*string			`json:"notes"`
+	Description		*string			`json:"description"`
+	Stage			PackingStage	`json:"stage"`
+	Category		Category		`json:"category"`
 }
 
-type EntityLabel string
-
-const (
-	ItemType    EntityLabel = "items"
-	BoxType     EntityLabel = "boxes"
-	BoxItemType EntityLabel = "box_items"
-)
-
-type Entity struct {
-	ID          	int
-	EntityLabel 	EntityLabel
-	Name        	string
-	Notes       	*string
-	Description 	*string
-	Stage       	PackingStage
-	Category    	Category
-}
-
-type Item Entity
-type Box Entity
-
-// joins
+// joining tables and derivative data types
 type BoxItem struct {
 	ID     int
 	BoxID  int
 	ItemID int
+}
+
+type BoxItemWithItemInfo struct {
+	ID				int
+	Name			string
+	Stage 			PackingStage
+	Category		Category
+	Description		*string
+	Notes			*string
 }

@@ -1,0 +1,80 @@
+<tr id="datarow-{{.ID}}" class="datarow w-full border-b dark:border-neutral-500">
+  <td id="datarow-{{.ID}}-id" class="hidden md:flex whitespace-nowrap px-6 py-4 w-1/12">
+    <input class="data-input-{{.ID}}" hidden disabled type="text" name="id" value="{{.ID}}" data-include-edit="{{.ID}}" />
+    <span>{{.ID}}</span>
+  </td>
+  <td id="datarow-{{.ID}}-name" class="whitespace-nowrap px-6 py-4 w-1/4 md:w-1/6">
+    <input
+      type="text"
+      class="data-input-{{.ID}} shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      data-include-edit="{{.ID}}"
+      name="name"
+      value="{{.Name}}"
+    />
+  </td>
+  <td id="datarow-{{.ID}}-stage" class="whitespace-nowrap px-6 py-4 w-1/4 md:w-1/6">
+    {{ template "components/edit-packing-stage.html" . }}
+  </td>
+  <td id="datarow-{{.ID}}-category" class="whitespace-nowrap px-6 py-4 w-1/4 md:w-1/6">
+    {{ template "components/edit-category.html" . }}
+  </td>
+  <td id="datarow-{{.ID}}-description" class="hidden md:flex px-6 py-4 w-1/6">
+    <input
+      type="text"
+      class="data-input-{{.ID}} shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      data-include-edit="{{.ID}}"
+      name="description"
+      value="{{.Description}}"
+    />
+  </td>
+  <td id="datarow-{{.ID}}-notes" class="hidden md:flex px-6 py-4 w-1/6">
+    <input
+      type="text"
+      class="data-input-{{.ID}} shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      data-include-edit="{{.ID}}"
+      name="notes"
+      value="{{.Notes}}"
+    />
+
+  <td id="datarow-{{.ID}}-actions" class="whitespace-nowrap flex items-end px-1 py-1 w-1/4 md:w-1/12">
+    <a
+      id="datarow-{{.ID}}-save"
+      hx-put="/items/save/{{.ID}}"
+      hx-target="#datarow-{{.ID}}"
+      hx-swap="outerHTML"
+      hx-indicator="#processing"
+      hx-include=".data-input-{{.ID}}"
+      class="inline-flex items-center h-8 px-4 m-2 text-sm text-blue-100 transition-colors duration-150 bg-blue-700 rounded-lg focus:shadow-outline hover:bg-blue-800"
+      href=""
+      >Save</a
+    >
+    <a
+      hx-get="/items/{{.ID}}"
+      hx-target="#datarow-{{.ID}}"
+      hx-swap="outerHTML"
+      hx-indicator="#processing"
+      class="inline-flex items-center h-8 px-4 m-2 text-sm text-red-100 transition-colors duration-150 bg-red-700 rounded-lg focus:shadow-outline hover:bg-red-800"
+      href=""
+      >Cancel</a
+    >
+  </td>
+  <script>
+    window.addEventListener("keydown", (e) => {
+      /** @typedef KeyboardEvent */
+      const target = e.target;
+
+      if (e.target.key == "Enter") {
+        const a = document.getElementById("datarow-{{.ID}}-save");
+        void a.click();
+      }
+    })
+
+    document.getElementById("category-selector-{{.ID}}").onchange = (e) => {
+      console.log(e.target.value);
+    }
+
+    document.getElementById("packing-stage-selector-{{.ID}}").onchange = (e) => {
+      console.log(e.target.value);
+    }
+  </script>
+</tr>

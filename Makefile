@@ -31,7 +31,16 @@ test:
 ## build: build a binary
 .PHONY: build
 build: test
-	go build -o ./app -v
+	sudo rm -f mikayla-moving
+	go build -o ./mikayla-moving -v
+	sudo cp mikayla-moving /usr/bin/mikayla-moving
+
+# restart: rebuild and restart the systemd service running the project
+.PHONY: restart
+restart:
+	sudo systemctl stop mikayla-moving
+	make build
+	sudo systemctl restart mikayla-moving
 
 ## docker-build: build project into a docker container image
 .PHONY: docker-build

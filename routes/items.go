@@ -1,113 +1,200 @@
 package routes
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
 
 	db "github.com/innocuous-symmetry/moving-mgmt/db"
-	"github.com/innocuous-symmetry/moving-mgmt/util"
 	"github.com/jritsema/gotoolbox/web"
 )
 
-func Items(_html *template.Template) *Router {
+type ItemActions struct {
+	Get    func(r *http.Request) *web.Response
+	GetAll func(r *http.Request) *web.Response
+	Edit   func(r *http.Request) *web.Response
+	Delete func(r *http.Request) *web.Response
+	Save   func(r *http.Request) *web.Response
+	Post   func(r *http.Request) *web.Response
+	Add    func(r *http.Request) *web.Response
+}
+
+func Items(_html *template.Template) *ItemActions {
 	html = _html
 
-	return NewRouter(
-		"items",
-		RouterActions{
-			GetAll:  GetAllItems,
-			GetByID: GetItemByID,
-			Post:    nil,
-			Put:     nil,
-			Delete:  nil,
-		},
-	)
+	return &ItemActions{
+		Get:    Get,
+		GetAll: GetAllItems,
+		Edit:   EditItem,
+		Delete: Delete,
+		Save:   Put,
+		Post:   Post,
+		Add:    Add,
+	}
+}
+
+func Get(r *http.Request) *web.Response {
+	_, count := web.PathLast(r)
+
+	if count == 1 {
+		return GetAllItems(r)
+	} else {
+		return GetItemByID(r)
+	}
 }
 
 func GetAllItems(_ *http.Request) *web.Response {
-	result, err := db.GetAll("items")
+	result, err := db.GetAllItems()
 	if err != nil {
-		return web.Error(http.StatusNotFound, err, nil)
+		panic(err)
 	}
-
-	items := []db.Item{}
-
-	for result.Next() {
-		item := db.Item{}
-		err = db.ParseItem(&item, result.Scan)
-		if err != nil {
-			fmt.Println(err.Error())
-			return web.Error(http.StatusInternalServerError, err, nil)
-		}
-
-		items = append(items, item)
-	}
-
-	fmt.Println("items", items)
 
 	return web.HTML(
 		http.StatusOK,
 		html,
-		"entity-list.html",
+		"items/entity-list.html",
+		result,
+		nil,
+	)
+}
+
+func EditItem(r *http.Request) *web.Response {
+	idFromPath, _ := web.PathLast(r)
+
+	id, err := strconv.ParseInt(idFromPath, 10, 64)
+	if err != nil {
+		return web.Error(http.StatusBadRequest, err, nil)
+	}
+
+	result, err := db.GetItemByID(int(id))
+
+	if err != nil {
+		return web.Error(http.StatusInternalServerError, err, nil)
+	}
+
+	return web.HTML(
+		http.StatusOK,
+		html,
+		"items/entity-edit.html",
 		result,
 		nil,
 	)
 }
 
 func GetItemByID(r *http.Request) *web.Response {
-	id, err := util.GetIDFromPath(r)
+	idFromPath, _ := web.PathLast(r)
+
+	id, err := strconv.ParseInt(idFromPath, 10, 64)
 	if err != nil {
 		return web.Error(http.StatusBadRequest, err, nil)
 	}
 
-	editMode, err := strconv.ParseBool(r.URL.Query().Get("edit"))
-	if err != nil {
-		return web.Error(http.StatusBadRequest, err, nil)
-	}
+	result, err := db.GetItemByID(int(id))
 
-	res, err := db.GetByID("items", id)
-
-	item := db.Item{}
-	err = db.ParseItem(&item, res.Scan)
 	if err != nil {
 		return web.Error(http.StatusInternalServerError, err, nil)
-	}
-
-	var tmpl string
-
-	if editMode {
-		tmpl = "entity-edit.html"
-	} else {
-		tmpl = "entity-row.html"
 	}
 
 	return web.HTML(
 		http.StatusOK,
 		html,
-		tmpl,
+		"items/entity-row.html",
+		result,
+		nil,
+	)
+}
+
+func Put(r *http.Request) *web.Response {
+	id, _ := web.PathLast(r)
+
+	if err := r.ParseForm(); err != nil {
+		return web.Error(http.StatusBadRequest, err, nil)
+	}
+
+	if r.Form.Get("category") == "" {
+		panic(r.Form.Get(""))
+	}
+
+	if r.Form.Get("stage") == "" {
+		panic(r.Form.Get(""))
+	}
+
+	name := r.Form.Get("name")
+	stage := r.Form.Get("stage")
+	category := r.Form.Get("category")
+	description := r.Form.Get("description")
+	notes := r.Form.Get("notes")
+	// id := r.Form.Get("id")
+
+	item := db.Item{
+		ID: func() int {
+			idInt, err := strconv.ParseInt(id, 10, 64)
+
+			if err != nil {
+				return -1
+			}
+
+			return int(idInt)
+		}(),
+
+		Name:        name,
+		Description: &description,
+		Notes:       &notes,
+
+		Stage: func() db.PackingStage {
+			stageInt, _ := strconv.Atoi(stage)
+			return db.PackingStage(stageInt)
+		}(),
+
+		Category: func() db.Category {
+			categoryInt, _ := strconv.Atoi(category)
+			return db.Category(categoryInt)
+		}(),
+	}
+
+	if _, err := db.PutItem(item); err != nil {
+		return web.Error(http.StatusInternalServerError, err, nil)
+	}
+
+	return web.HTML(
+		http.StatusOK,
+		html,
+		"items/entity-row.html",
 		item,
 		nil,
 	)
 }
 
-func PutItem(r *http.Request) *web.Response {
-	body := r.Body
-	defer body.Close()
-
-	bodyBytes := make([]byte, r.ContentLength)
-	_, err := body.Read(bodyBytes)
-	if err != nil {
-		return web.Error(http.StatusInternalServerError, err, nil)
-	}
-
-	item, err := db.ParseEntityFromBytes(bodyBytes)
+func Post(r *http.Request) *web.Response {
+	err := r.ParseForm()
 	if err != nil {
 		return web.Error(http.StatusBadRequest, err, nil)
 	}
 
-	result, err := db.Put("items", item)
+	name := r.Form.Get("name")
+	stage := r.Form.Get("stage")
+	category := r.Form.Get("category")
+	description := r.Form.Get("description")
+	notes := r.Form.Get("notes")
+
+	item := db.Item{
+		Name:        name,
+		Description: &description,
+		Notes:       &notes,
+
+		Stage: func() db.PackingStage {
+			stageInt, _ := strconv.Atoi(stage)
+			return db.PackingStage(stageInt)
+		}(),
+
+		Category: func() db.Category {
+			categoryInt, _ := strconv.Atoi(category)
+			return db.Category(categoryInt)
+		}(),
+	}
+
+	_, err = db.PostItem(item)
+
 	if err != nil {
 		return web.Error(http.StatusInternalServerError, err, nil)
 	}
@@ -115,8 +202,41 @@ func PutItem(r *http.Request) *web.Response {
 	return web.HTML(
 		http.StatusOK,
 		html,
-		"entity-row.html",
-		result,
+		"items/entity-add-success.html",
+		item,
+		nil,
+	)
+}
+
+func Add(r *http.Request) *web.Response {
+	return web.HTML(
+		http.StatusOK,
+		html,
+		"items/items/entity-add.html",
+		nil,
+		nil,
+	)
+}
+
+func Delete(r *http.Request) *web.Response {
+	idFromPath, _ := web.PathLast(r)
+	id, err := strconv.ParseInt(idFromPath, 10, 64)
+
+	if err != nil {
+		return web.Error(http.StatusBadRequest, err, nil)
+	}
+
+	_, err = db.DeleteItem(int(id))
+
+	if err != nil {
+		return web.Error(http.StatusInternalServerError, err, nil)
+	}
+
+	return web.HTML(
+		http.StatusOK,
+		html,
+		"items/entity-row.html",
+		nil,
 		nil,
 	)
 }

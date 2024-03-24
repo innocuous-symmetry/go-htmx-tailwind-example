@@ -1,0 +1,46 @@
+<tr id="datarow-{{.ID}}" class="border-b dark:border-neutral-500 hover:bg-slate-300 hover:bg-opacity-20">
+  <td class="whitespace-nowrap items-center justify-center w-1/12">{{.ID}}</td>
+
+  <td class="whitespace-nowrap px-6 py-4 w-1/6">{{.Name}}</td>
+
+  <td class="whitespace-nowrap px-6 py-4 w-1/6">
+    {{ template "components/parsed-packing-stage.html" .Stage }}
+  </td>
+
+  <td class="whitespace-nowrap px-6 py-4 w-1/6">
+    {{ template "components/parsed-category.html" .Category }}
+  </td>
+
+  {{ if .Description }}
+    <td class="w-1/6 px-6 py-4 ">{{.Description}}</td>
+  {{ else }}
+    <td class="w-1/6 px-6 py-4 ">...</td>
+  {{ end }}
+
+  {{ if .Notes }}
+    <td class="w-1/6 px-6 py-4 ">{{.Notes}}</td>
+  {{ else }}
+    <td class="w-1/6 px-6 py-4 ">...</td>
+  {{ end }}
+
+  <td class="whitespace-nowrap px-6 py-4 w-1/12">
+    <button
+      hx-get="/items/edit/{{ .ID }}"
+      hx-target="#datarow-{{ .ID }}"
+      hx-swap="outerHTML"
+      class="inline-flex items-center h-8 px-4 m-2 text-sm text-yellow-100 transition-colors duration-150 bg-yellow-700 rounded-lg focus:shadow-outline hover:bg-yellow-800"
+    >
+      Edit
+    </button>
+
+    <button
+      hx-delete="/items/delete/{{ .ID }}"
+      hx-confirm="Are you sure?"
+      hx-target="#datarow-{{ .ID }}"
+      hx-swap="delete"
+      class="inline-flex items-center h-8 px-4 m-2 text-sm text-red-100 transition-colors duration-150 bg-red-700 rounded-lg focus:shadow-outline hover:bg-red-800"
+    >
+      Delete
+    </button>
+  </td>
+</tr>
